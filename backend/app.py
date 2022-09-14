@@ -55,7 +55,7 @@ def welcome(event, context):
     
     else:
         # opening file - if not valid json, just return the whole file as error
-        with open(target_lang_dict_path, 'r+') as translation_file_raw:
+        with open(target_lang_dict_path, 'r') as translation_file_raw:
             translation_dict_string = translation_file_raw.read()
             try:
                 language_dictionary = json.loads(translation_file_raw.read())
