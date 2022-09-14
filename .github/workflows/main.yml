@@ -30,25 +30,18 @@ jobs:
           node-version: "14.x"
       - name: Install Serverless Framework
         run: npm install -g serverless
-      - name: Install NPM dependencies
-        run: |
-          npm install
-          npm install "./src"
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.8  # Update with your python version
       - name: Serverless Plugins
-        working-directory: "./src"
+        working-directory: "./backend"
         run: |
-          python3 -m pip install poetry
-          wget https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie
-          python3 -m poetry export --without-hashes -f requirements.txt --output requirements.txt
-          npm install serverless-domain-manager --save-dev
+          python3 -m pip install -r requirements.txt
       - name: Serverless Authentication
         run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Deploy to AWS
-        working-directory: "./src"
+        working-directory: "./backend"
         run: |
           export AWS_PROFILE=default
           export SLS_DEBUG=true
