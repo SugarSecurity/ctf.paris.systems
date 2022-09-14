@@ -44,40 +44,32 @@ def welcome(event, context):
             target_language = "en"
 
     # checks if "lang" param exists as a file with ".json" extension
-    target_lang_dict_path = Path(f'{target_language}.json')
-    if target_lang_dict_path.is_file():
-        print('file exists - official translation')
-        print('opening target json file')
-        
-    # if not, check if file exists at all
+    target_lang_dict_path = Path(f"translations/{target_language}")
+    if not target_lang_dict_path.is_file():
+        print('file does not exist - returning error - no file found')
+        http_response = {                                                       # returning it to API gateway request
+            "statusCode": 200,
+            "body": json.dumps({'translated_welcome': "ERROR: file not found"})
+        }
+        return http_response
+    
     else:
-        target_lang_dict_path = Path(target_language)
-        if target_lang_dict_path.is_file():
-            print('file exists - unknown origin')
-        else:
-            print('file does not exist - returning error - no file found')
-            http_response = {                                                       # returning it to API gateway request
-                "statusCode": 200,
-                "body": json.dumps({'translated_welcome': "ERROR: file not found"})
-            }
-            return http_response
-    
-    # opening file - if not valid json, just return the whole file as error
-    with open(target_lang_dict_path, 'r+') as translation_file_raw:
-        translation_dict_string = translation_file_raw.read()
-        try:
-            language_dictionary = json.loads(translation_file_raw.read())
-            welcome_text = language_dictionary['welcome']
-        except:
-            invalid_dictionary = translation_dict_string
-            welcome_text = f"ERROR: {invalid_dictionary}"
-    
-    http_response = {                                                       # returning it to API gateway request
-        "statusCode": 200,                                                  # 200 = success
-        "body": json.dumps({'translated_welcome': welcome_text})             # json
-    }
-    
-    return http_response
+        # opening file - if not valid json, just return the whole file as error
+        with open(target_lang_dict_path, 'r+') as translation_file_raw:
+            translation_dict_string = translation_file_raw.read()
+            try:
+                language_dictionary = json.loads(translation_file_raw.read())
+                welcome_text = language_dictionary['welcome']
+            except:
+                invalid_dictionary = translation_dict_string
+                welcome_text = f"ERROR: {invalid_dictionary}"
+        
+        http_response = {                                                       # returning it to API gateway request
+            "statusCode": 200,                                                  # 200 = success
+            "body": json.dumps({'translated_welcome': welcome_text})             # json
+        }
+        
+        return http_response
 
 #def index(event, context):
 #    #query = "{query: getPage(id: \"1\") {page_content}}"
