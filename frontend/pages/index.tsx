@@ -39,6 +39,7 @@ const Home: NextPage = () => {
           >
             <option value="en">EN</option>
             <option value="es">ES</option>
+            <option value="fr">FR</option>
           </select>
         </p>
       </main>
