@@ -60,14 +60,14 @@ functions:
     handler: app.translate
     events:
     - http:
-        path: /translate
+        path: translate
         method: get
         cors: true
   graphql:
     handler: app.graphql_handler
     events:
     - http:
-        path: /graphql
+        path: graphql
         method: get
         cors: true
 # you can add CloudFormation resource templates here

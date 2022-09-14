@@ -6,7 +6,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 export async function getServerSideProps() {
-  const api_response = await fetch("https://ctf-api.paris.systems/prod/");
+  const api_response = await fetch("https://ctf-api.paris.systems/prod/translate");
   const api_response_json = await api_response.json();
   return {
     props: {translation_api_response: api_response_json}
