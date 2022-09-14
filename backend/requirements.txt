@@ -2,3 +2,4 @@ aws-lambda-powertools
 flask
 ariadne
 requests
+awslambdaric

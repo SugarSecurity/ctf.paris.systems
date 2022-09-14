@@ -83,21 +83,21 @@ def welcome(event, context):
 #
 #    return http_response
 
-@graphql_api.resolver(type_name="Query", field_name="getPage")
-def get_page(id: str = ""):
-    print(f"Fetching Page {id}")
-    page = ctf_pages[0]
-    page.raise_for_status()
-
-    return page
-
-@graphql_api.resolver(type_name="Query", field_name="listPages")
-def list_pages():
-    return ctf_pages
-
-def graphql_handler(event, _):
-    return graphql_api.resolve(event, None)
-
-if __name__ == "__main__":
-    test_response = translate()
-    print(test_response)
+#@graphql_api.resolver(type_name="Query", field_name="getPage")
+#def get_page(id: str = ""):
+#    print(f"Fetching Page {id}")
+#    page = ctf_pages[0]
+#    page.raise_for_status()
+#
+#    return page
+#
+#@graphql_api.resolver(type_name="Query", field_name="listPages")
+#def list_pages():
+#    return ctf_pages
+#
+#def graphql_handler(event, _):
+#    return graphql_api.resolve(event, None)
+#
+#if __name__ == "__main__":
+#    test_response = translate()
+#    print(test_response)
