@@ -60,7 +60,7 @@ functions:
   #      path: /
   #      method: get
   #      cors: true
-  translate:
+  welcome:
     image:
       name: translation_node
       command:
