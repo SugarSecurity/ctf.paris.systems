@@ -10,7 +10,7 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { locale } = router;
 
-  const switchLanguage = (e) => {
+  const switchLanguage = (e: { target: { value: any } }) => {
     const locale = e.target.value;
     router.push('/','/', { locale });
   }
