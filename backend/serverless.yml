@@ -56,6 +56,13 @@ functions:
         path: /
         method: get
         cors: true
+  translate:
+    handler: app.translate
+    events:
+    - http:
+        path: /translate
+        method: get
+        cors: true
   graphql:
     handler: app.graphql_handler
     events:
