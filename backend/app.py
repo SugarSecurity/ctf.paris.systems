@@ -32,11 +32,12 @@ ctf_pages = [
 graphql_api = AppSyncResolver()
 
 def translate(event, context):
+    print(event)
     http_response = {                                                       # returning it to API gateway request
         "statusCode": 200,                                                  # 200 = success
-        "body": json.dumps({'translated': 'Bienvenue à Paris'})             # json
+        "body": {'translated': 'Bienvenue à Paris'}            # json
     }
-    return http_response
+    return json.dumps(http_response)
 
 #def index(event, context):
 #    #query = "{query: getPage(id: \"1\") {page_content}}"
