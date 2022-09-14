@@ -13,7 +13,7 @@ export async function getServerSideProps() {
   };
 }
 
-const Home: NextPage = (api_response_json) => {
+const Home: NextPage = (api_response_json: any) => {
   const router = useRouter();
   const { locale } = router;
 
@@ -21,8 +21,6 @@ const Home: NextPage = (api_response_json) => {
     const locale = e.target.value;
     router.push('/','/', { locale });
   }
-
-  const translated_welcome = JSON.stringify(api_response_json);
 
   return (
     <div className={styles.container}>
@@ -38,7 +36,7 @@ const Home: NextPage = (api_response_json) => {
             <Image src="/tower.png" alt="Eiffel Tower" width={60} height={100}/>
           </span>
           
-          {translated_welcome}
+          {api_response_json.translated_welcome}
         </h1>
 
         <p className={styles.description}>
