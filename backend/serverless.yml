@@ -4,6 +4,10 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: python3.8
+  ecr:
+    images:
+      translation_node:
+        path: ./
   region: us-east-1
 
 plugins:
@@ -57,7 +61,10 @@ functions:
   #      method: get
   #      cors: true
   translate:
-    handler: app.welcome
+    image:
+      name: translation_node
+      command:
+        - app.welcome
     events:
     - http:
         path: welcome

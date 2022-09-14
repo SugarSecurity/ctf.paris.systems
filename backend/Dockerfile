@@ -1,0 +1,21 @@
+ARG FUNCTION_DIR="/function"
+
+FROM ubuntu:latest
+
+ARG FUNCTION_DIR
+
+COPY . ${FUNCTION_DIR}
+
+WORKDIR ${FUNCTION_DIR}
+
+RUN apt-get update \
+    && apt-get install -y\
+    python3 \
+    python3-pip \
+    && wget -O ./aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie \
+    && pip install -r requirements.txt \
+    && chmod u+x ./aws-lambda-rie \
+    && chmod u+x ./lambda.sh
+
+#ENTRYPOINT [ "python3","-m","awslambdaric" ]
+ENTRYPOINT [ "./lambda.sh" ]
