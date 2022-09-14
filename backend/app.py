@@ -46,7 +46,7 @@ def welcome(event, context):
     # checks if "lang" param exists as a file with ".json" extension
     target_lang_dict_path = Path(f"./translations/{target_language}")
     if not target_lang_dict_path.is_file():
-        print('file does not exist - returning error - no file found')
+        print(f'file does not exist - {target_lang_dict_path}')
         http_response = {                                                       # returning it to API gateway request
             "statusCode": 200,
             "body": json.dumps({'translated_welcome': "ERROR: file not found"})
