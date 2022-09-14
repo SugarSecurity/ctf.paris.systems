@@ -49,13 +49,13 @@ plugins:
 #    variable1: value1
 
 functions:
-  index:
-    handler: app.index
-    events:
-    - http:
-        path: /
-        method: get
-        cors: true
+  #index:
+  #  handler: app.index
+  #  events:
+  #  - http:
+  #      path: /
+  #      method: get
+  #      cors: true
   translate:
     handler: app.translate
     events:

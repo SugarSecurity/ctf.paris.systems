@@ -31,24 +31,24 @@ ctf_pages = [
 
 graphql_api = AppSyncResolver()
 
-def translate():
+def translate(event, context):
     http_response = {                                                       # returning it to API gateway request
         "statusCode": 200,                                                  # 200 = success
         "body": json.dumps({'translated': 'Bienvenue à Paris'})             # json
     }
     return http_response
 
-def index(event, context):
-    query = "{query: getPage(id: \"1\") {page_content}}"
-    ctf_index_html = requests.get(f'http://ctf.paris.systems/prod/graphql?query={query}')
-    
-    http_response = {                                                       # returning it to API gateway request
-        "statusCode": 200,                                                  # 200 = success
-        "headers": {'Content-Type': 'text/html'},                           # html
-        "body": ctf_index_html   # html ^ 
-    }
-
-    return http_response
+#def index(event, context):
+#    #query = "{query: getPage(id: \"1\") {page_content}}"
+#    #ctf_index_html = requests.get(f'http://ctf.paris.systems/prod/graphql?query={query}')
+#    
+#    http_response = {                                                       # returning it to API gateway request
+#        "statusCode": 200,                                                  # 200 = success
+#        "headers": {'Content-Type': 'text/html'},                           # html
+#        "body": ctf_index_html   # html ^ 
+#    }#
+#
+#    return http_response
 
 @graphql_api.resolver(type_name="Query", field_name="getPage")
 def get_page(id: str = ""):
@@ -64,3 +64,7 @@ def list_pages():
 
 def graphql_handler(event, _):
     return graphql_api.resolve(event, None)
+
+if __name__ == "__main__":
+    test_response = translate()
+    print(test_response)
