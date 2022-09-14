@@ -34,6 +34,8 @@ graphql_api = AppSyncResolver()
 
 def welcome(event, context):
     print('lambda started...')
+    if event.get('queryStringParameters') is None:
+        target_language = 'en'
     target_language = event['queryStringParameters'].get('lang')
     if target_language is None:
         target_language = "en"
