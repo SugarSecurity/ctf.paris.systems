@@ -1,6 +1,6 @@
 ARG FUNCTION_DIR="/function"
 FROM ubuntu:latest
-ARG FUNCTION_DIR="/function"
+ARG FUNCTION_DIR
 
 COPY . ${FUNCTION_DIR}
 

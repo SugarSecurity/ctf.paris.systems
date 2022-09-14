@@ -38,6 +38,7 @@ jobs:
         working-directory: "./backend"
         run: |
           python3 -m pip install -r requirements.txt
+          wget https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie
           serverless plugin install -n serverless-python-requirements
       - name: Serverless Authentication
         run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
