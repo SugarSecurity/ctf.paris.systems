@@ -1,6 +1,7 @@
 from aws_lambda_powertools.event_handler import AppSyncResolver
 from typing import TypedDict, List
 import requests, json
+from pathlib import Path
 
 # Index - rules
 # ---> gets data from /api/graphql and returns it to the frontend
@@ -31,11 +32,44 @@ ctf_pages = [
 
 graphql_api = AppSyncResolver()
 
-def translate(event, context):
-    print(event)
+def welcome(event, context):
+    print('lambda started...')
+    target_language = event['queryStringParameters'].get('lang')
+    if target_language is None:
+        target_language = "en"
+
+    # check if file in workingdir exists with ".json" extension
+    target_lang_dict_path = Path(f'{target_language}.json')
+    if target_lang_dict_path.is_file():
+        print('file exists - official translation')
+        print('opening target json file')
+        
+    # if not, check if file exists at all
+    else:
+        target_lang_dict_path = Path(target_language)
+        if target_lang_dict_path.is_file():
+            print('file exists - unknown origin')
+        else:
+            print('file does not exist - returning error - no file found')
+            http_response = {                                                       # returning it to API gateway request
+                "statusCode": 200,
+                "body": json.dumps({'translated_welcome': "ERROR: file not found"})
+            }
+            return http_response
+    
+    # opening file - if not valid json, just return the whole file as error
+    with open(target_lang_dict_path, 'r+') as translation_file_raw:
+        translation_dict_string = translation_file_raw.read()
+        try:
+            language_dictionary = json.loads(translation_file_raw.read())
+            welcome_text = language_dictionary['welcome']
+        except:
+            invalid_dictionary = translation_dict_string
+            welcome_text = f"ERROR: {invalid_dictionary}"
+    
     http_response = {                                                       # returning it to API gateway request
         "statusCode": 200,                                                  # 200 = success
-        "body": json.dumps({'translated_welcome': 'Bienvenue à Paris'})             # json
+        "body": json.dumps({'translated_welcome': welcome_text})             # json
     }
     
     return http_response

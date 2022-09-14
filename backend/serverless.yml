@@ -57,10 +57,10 @@ functions:
   #      method: get
   #      cors: true
   translate:
-    handler: app.translate
+    handler: app.welcome
     events:
     - http:
-        path: translate
+        path: welcome
         method: get
         cors: true
   graphql:
