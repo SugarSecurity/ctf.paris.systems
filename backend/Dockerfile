@@ -1,5 +1,5 @@
 ARG FUNCTION_DIR="/function"
-FROM python:3.8-buster
+FROM python:3.8-bullseye
 ARG FUNCTION_DIR="/function"
 
 COPY . ${FUNCTION_DIR}
