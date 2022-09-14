@@ -18,8 +18,8 @@ RUN apt-get update \
     python3-pip \
     && wget -O ./aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie \
     && pip install -r requirements.txt \
-    && chmod u+x ./aws-lambda-rie \
-    && chmod u+x ./lambda.sh
+    && chmod a+x ./aws-lambda-rie \
+    && chmod a+x ./lambda.sh
 
 #ENTRYPOINT [ "python3","-m","awslambdaric" ]
 ENTRYPOINT [ "./lambda.sh" ]
