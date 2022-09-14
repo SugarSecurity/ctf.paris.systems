@@ -34,13 +34,16 @@ graphql_api = AppSyncResolver()
 
 def welcome(event, context):
     print('lambda started...')
+    
+    # english is the default language
     if event.get('queryStringParameters') is None:
         target_language = 'en'
-    target_language = event['queryStringParameters'].get('lang')
-    if target_language is None:
-        target_language = "en"
+    else:
+        target_language = event['queryStringParameters'].get('lang')
+        if target_language is None:
+            target_language = "en"
 
-    # check if file in workingdir exists with ".json" extension
+    # checks if "lang" param exists as a file with ".json" extension
     target_lang_dict_path = Path(f'{target_language}.json')
     if target_lang_dict_path.is_file():
         print('file exists - official translation')
