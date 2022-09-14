@@ -1,0 +1,76 @@
+service: paris-ctf-backend
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: us-east-1
+
+plugins:
+  - serverless-python-requirements
+# - serverless-domain-manager
+
+# custom domains don't play nice with paris.systems for some reason.
+# Needs to be deployed manually and then updated manually in API gateway & route53
+#custom:                                             # settings for the plugins: 
+#  customDomain:                                     # | custom domain:
+#    domainName: "ctf.paris.systems"      # --> bas-engine.sugarsecurity.com
+#    stage: ${opt:stage,'prod'}                       # --> adds /prod/ or /dev/
+#    basePath: ${opt:stage,'prod'}                    # --> everything 
+#    certificateName: "ctf.paris.systems"          # --> TLS certificate in ACM
+#    endpointType: "regional"                        # --> regional endpoint
+#    securityPolicy: tls_1_2                         # --> TLS 1.2
+#    createRoute53Record: true                       # --> creates / replaces Route53 record
+#    apiType: rest                                   # --> REST API
+#    autoDomain: true                                # --> ?
+#    route53Profile: default
+#    route53Region: us-east-1
+
+# you can add statements to the Lambda function's IAM Role here
+#  iam:
+#    role:
+#      statements:
+#        - Effect: "Allow"
+#          Action:
+#            - "s3:ListBucket"
+#          Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
+#        - Effect: "Allow"
+#          Action:
+#            - "s3:PutObject"
+#          Resource:
+#            Fn::Join:
+#              - ""
+#              - - "arn:aws:s3:::"
+#                - "Ref" : "ServerlessDeploymentBucket"
+#                - "/*"
+
+# you can define service wide environment variables here
+#  environment:
+#    variable1: value1
+
+functions:
+  index:
+    handler: app.index
+    events:
+    - http:
+        path: /
+        method: get
+        cors: true
+  graphql:
+    handler: app.graphql_handler
+    events:
+    - http:
+        path: /graphql
+        method: get
+        cors: true
+# you can add CloudFormation resource templates here
+#resources:
+#  Resources:
+#    NewResource:
+#      Type: AWS::S3::Bucket
+#      Properties:
+#        BucketName: my-new-bucket
+#  Outputs:
+#     NewOutput:
+#       Description: "Description for the output"
+#       Value: "Some output value"

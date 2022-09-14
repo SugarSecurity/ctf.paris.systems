@@ -1,0 +1,61 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Master-Deploy
+
+# Controls when the action will run.
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - name: Install Serverless Framework
+        run: npm install -g serverless
+      - name: Install NPM dependencies
+        run: |
+          npm install
+          npm install "./src"
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8  # Update with your python version
+      - name: Serverless Plugins
+        working-directory: "./src"
+        run: |
+          python3 -m pip install poetry
+          wget https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie
+          python3 -m poetry export --without-hashes -f requirements.txt --output requirements.txt
+          npm install serverless-domain-manager --save-dev
+      - name: Serverless Authentication
+        run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Deploy to AWS
+        working-directory: "./src"
+        run: |
+          export AWS_PROFILE=default
+          export SLS_DEBUG=true
+          sls deploy --verbose -s prod
+        env:
+          SLS_DEBUG: "*"
+          AWS_PROFILE: default
+          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
