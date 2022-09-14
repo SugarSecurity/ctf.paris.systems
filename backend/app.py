@@ -35,7 +35,7 @@ def translate(event, context):
     print(event)
     http_response = {                                                       # returning it to API gateway request
         "statusCode": 200,                                                  # 200 = success
-        "body": json.dumps({'translated': 'Bienvenue à Paris'})             # json
+        "body": json.dumps({'translated_welcome': 'Bienvenue à Paris'})             # json
     }
     
     return http_response

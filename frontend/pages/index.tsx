@@ -9,11 +9,11 @@ export async function getServerSideProps() {
   const api_response = await fetch("https://ctf-api.paris.systems/translate");
   const api_response_json = await api_response.json();
   return {
-    props: {translation_api_response: api_response_json}
+    props: api_response_json
   };
 }
 
-const Home: NextPage = (props) => {
+const Home: NextPage = (api_response_json) => {
   const router = useRouter();
   const { locale } = router;
 
@@ -22,7 +22,7 @@ const Home: NextPage = (props) => {
     router.push('/','/', { locale });
   }
 
-  const translated_welcome = JSON.stringify(props);
+  const translated_welcome = JSON.stringify(api_response_json);
 
   return (
     <div className={styles.container}>
@@ -37,7 +37,8 @@ const Home: NextPage = (props) => {
           <span className={styles.logo}>
             <Image src="/tower.png" alt="Eiffel Tower" width={60} height={100}/>
           </span>
-          <pre>{translated_welcome}</pre>
+          
+          {translated_welcome}
         </h1>
 
         <p className={styles.description}>
