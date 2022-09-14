@@ -1,6 +1,6 @@
 ARG FUNCTION_DIR="/function"
-FROM ubuntu:latest
-ARG FUNCTION_DIR
+FROM python:3.8-buster
+ARG FUNCTION_DIR="/function"
 
 COPY . ${FUNCTION_DIR}
 
