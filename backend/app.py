@@ -35,9 +35,10 @@ def translate(event, context):
     print(event)
     http_response = {                                                       # returning it to API gateway request
         "statusCode": 200,                                                  # 200 = success
-        "body": {'translated': 'Bienvenue à Paris'}            # json
+        "body": json.dumps({'translated': 'Bienvenue à Paris'})             # json
     }
-    return json.dumps(http_response)
+    
+    return http_response
 
 #def index(event, context):
 #    #query = "{query: getPage(id: \"1\") {page_content}}"
