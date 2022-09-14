@@ -58,7 +58,7 @@ def welcome(event, context):
         with open(target_lang_dict_path, 'r') as translation_file_raw:
             translation_dict_string = translation_file_raw.read()
             try:
-                language_dictionary = json.loads(translation_file_raw.read())
+                language_dictionary = json.loads(translation_dict_string)
                 welcome_text = language_dictionary['welcome']
             except:
                 invalid_dictionary = translation_dict_string
