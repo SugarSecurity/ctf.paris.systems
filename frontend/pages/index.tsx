@@ -9,7 +9,7 @@ export async function getServerSideProps(context: any) {
   if (typeof context.locale === 'undefined') {
     context.locale = "en";
   }
-  const translation_api_url = "https://ctf-api.paris.systems/welcome?lang=" + context.locale
+  const translation_api_url = "https://ctf-api.paris.systems/welcome?lang=" + context.locale;
   const api_response = await fetch(translation_api_url);
   const api_response_json = await api_response.json();
   return {
