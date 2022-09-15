@@ -1,29 +1,33 @@
-import type { NextPage } from 'next'
-import { useRouter } from "next/router"
+import type { NextPage } from 'next';
+import { useRouter } from "next/router";
 
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-export async function getServerSideProps(context: any) {
-  if (typeof context.locale === 'undefined') {
-    context.locale = "en";
+export async function getWelcomeText(target_lang: any) {
+  if (typeof target_lang === 'undefined') {
+    target_lang = "en";
   }
-  const translation_api_url = "https://ctf-api.paris.systems/welcome?lang=" + context.locale;
+  const translation_api_url = "https://ctf-api.paris.systems/welcome?lang=" + target_lang;
   const api_response = await fetch(translation_api_url);
   const api_response_json = await api_response.json();
-  return {
-    props: api_response_json
-  };
+  return api_response_json;
 }
 
-const Home: NextPage = (api_response_json: any) => {
-  const router = useRouter();
-  const { locale } = router;
+const welcome_text = getWelcomeText("en");
 
-  const switchLanguage = (e: { target: { value: any } }) => {
-    const locale = e.target.value;
-    router.push('/','/', { locale });
+const Home: NextPage = () => {
+  const router = useRouter();
+
+  //const welcome_text = "test"
+  //const welcome_text = getWelcomeText("en");
+
+  const switchLanguage = (target_lang: string) => {
+    console.log(target_lang);
+    const welcome_text = getWelcomeText(target_lang);
+    console.log(welcome_text)
+    router.push('/', '/', { locale: target_lang});
   }
 
   return (
@@ -39,20 +43,21 @@ const Home: NextPage = (api_response_json: any) => {
           <span className={styles.logo}>
             <Image src="/tower.png" alt="Eiffel Tower" width={60} height={100}/>
           </span>
-          
-          {api_response_json.translated_welcome}
         </h1>
 
         <p className={styles.description}>
           select language:
           <select
-            onChange={switchLanguage}
-            defaultValue={locale}
+            onChange={(event) => {
+              switchLanguage(event.target.value)
+            }}
+            defaultValue="en"
           >
             <option value="en">EN</option>
             <option value="es">ES</option>
             <option value="fr">FR</option>
           </select>
+          
         </p>
       </main>
 
