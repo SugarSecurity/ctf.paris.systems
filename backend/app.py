@@ -49,6 +49,7 @@ def welcome(event, context):
         print(f'file does not exist - {target_lang_dict_path}')
         http_response = {                                                       # returning it to API gateway request
             "statusCode": 200,
+            "headers": {'Access-Control-Allow-Origin': '*'},
             "body": json.dumps({'translated_welcome': "ERROR: file not found"})
         }
         return http_response
