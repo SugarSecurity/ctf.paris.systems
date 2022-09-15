@@ -65,7 +65,8 @@ def welcome(event, context):
                 welcome_text = f"ERROR: {invalid_dictionary}"
         
         http_response = {                                                       # returning it to API gateway request
-            "statusCode": 200,                                                  # 200 = success
+            "statusCode": 200,
+            "headers": {'Access-Control-Allow-Origin': '*'},
             "body": json.dumps({'translated_welcome': welcome_text})             # json
         }
         
