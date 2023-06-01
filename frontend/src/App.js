@@ -34,6 +34,9 @@ function App() {
             <option value="fr">FR</option>
           </select>
         </p>
+        <p>This website is made by Sugar Security as part of an ethical hacking exercise</p>
+        <p>Users are authorized to perform penetration tests and vulnerability scans against this website</p>
+        <p>Denial-of-Service and similar (DDoS, DoW) attacks are not authorized</p>
       </header>
     </div>
   );
